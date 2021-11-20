@@ -28,10 +28,10 @@ class StripeWebhookPaymentCancelledRedirectEvent
     /**
      * Create a new event instance.
      *
-     * @param int $session_id
+     * @param string $session_id
      * @param array $response_data
      */
-    public function __construct(int $session_id, array $response_data)
+    public function __construct(string $session_id, array $response_data)
     {
         $this->session_id = $session_id;
         $this->response_data = $response_data;
