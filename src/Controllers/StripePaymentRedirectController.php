@@ -38,7 +38,7 @@ class StripePaymentRedirectController  extends BaseController
         Log::info("Payment cancel : ", $request->all());
         $session_id = $request->get('session_id');
         event(new StripeWebhookPaymentCancelledRedirectEvent($session_id, $request->all()));
-        flash(Config::get("stripe_webhooks.payment_cancelled"))->error();
+        flash(Config::get("stripe_webhooks.messages.errors.payment_cancelled"))->error();
         $current_url = Config::get("stripe_webhooks.redirect_url");
         return redirect($current_url);
     }
