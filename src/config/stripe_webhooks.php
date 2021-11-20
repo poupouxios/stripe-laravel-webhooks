@@ -28,7 +28,8 @@ return [
 
     'messages' => [
         'errors' => [
-            'failed_create_stripe_user_account' => 'Something went wrong with Stripe User Account Creation. Please contact our support for more info.'
+            'failed_create_stripe_user_account' => 'Something went wrong with Stripe User Account Creation. Please contact our support for more info.',
+            'payment_cancelled' => 'Payment has been canceled'
         ],
         'success' => [
             'create_stripe_user_account' => 'Stripe Account has been created successfully'

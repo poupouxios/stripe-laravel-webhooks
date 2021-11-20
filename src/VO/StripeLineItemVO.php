@@ -14,7 +14,7 @@ class StripeLineItemVO
     public float $amount;
 
     /** @var string $currency */
-    public string $currency;
+    public string $currency = 'eur';
 
     /** @var int $quantity */
     public int $quantity;
