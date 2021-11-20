@@ -1,0 +1,41 @@
+{
+    "name": "poupouxios/stripe-laravel-webhooks",
+    "description": "A stripe package for Laravel to have the basic routes for creating a link and also Events to be triggered when callbacks come from Stripe",
+    "type": "library",
+    "require": {
+        "php":">7.0.0",
+        "stripe/stripe-php": "^7.103",
+        "illuminate/support": "5.*|^6.0|^7.0|^8.0",
+        "illuminate/http": "5.*|^6.0|^7.0|^8.0",
+        "illuminate/events": "5.*|^6.0|^7.0|^8.0",
+        "illuminate/queue": "5.*|^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+    },
+    "license": "MIT",
+    "autoload": {
+        "classmap": [
+            "src/Controllers",
+            "src/Exceptions",
+            "src/Processors",
+            "src/Events",
+            "src/VO"
+        ],
+        "psr-4": {
+            "Poupouxios\\StripeLaravelWebhook\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Poupouxios\\StripeLaravelWebhook\\Providers\\StripeRouteServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Valentinos Papasavvas",
+            "email": "poupouxios@gmail.com"
+        }
+    ]
+}
