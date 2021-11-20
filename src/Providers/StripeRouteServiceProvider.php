@@ -23,7 +23,7 @@ class StripeRouteServiceProvider extends ServiceProvider {
     {
         if (method_exists($this, 'publishes')) {
             $this->publishes([
-                                 __DIR__.'/../../config/stripe_webhooks.php' => $this->config_path('stripe_webhooks.php'),
+                                 __DIR__.'/../config/stripe_webhooks.php' => $this->config_path('stripe_webhooks.php'),
                              ]);
 
         }

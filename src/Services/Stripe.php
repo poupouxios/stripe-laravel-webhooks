@@ -147,16 +147,15 @@ class Stripe
     /**
      * @param $payload
      * @param $sig_header
-     * @param $webhook_secret
      * @return Event
      * @throws SignatureVerificationException
      */
-    public function validateWebhookResponse($payload, $sig_header, $webhook_secret)
+    public function validateWebhookResponse($payload, $sig_header)
     {
         return Webhook::constructEvent(
             $payload,
             $sig_header,
-            $webhook_secret
+            Config::get('stripe_webhooks.webhook_secret')
         );
     }
 

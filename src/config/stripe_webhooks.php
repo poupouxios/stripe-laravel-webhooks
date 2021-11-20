@@ -33,6 +33,8 @@ return [
         'success' => [
             'create_stripe_user_account' => 'Stripe Account has been created successfully'
         ]
-    ]
+    ],
+
+    'webhook_secret' => ''
 
 ];

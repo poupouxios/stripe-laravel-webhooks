@@ -3,14 +3,31 @@
 A stripe package for Laravel to have the basic routes for creating a link and also Events to be triggered when callbacks come from Stripe
 
 ## Install (Laravel)
-Install via composer
+
+* Add in your composer.json the below repository to be able to pull the package from github
+```bash
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/poupouxios/stripe-laravel-webhooks"
+    }
+  ]
+```
+
+* Install via composer
 ```bash
 composer require poupouxios/stripe-laravel-webhooks
 ```
 
-Add Service Provider to `config/app.php` in `providers` section
+* Add Service Provider to `config/app.php` in `providers` section
 ```php
 Poupouxios\StripeLaravelWebhook\Providers\StripeRouteServiceProvider::class,
+```
+
+* Run the following command to publish configuration:
+
+```bash
+php artisan vendor:publish --provider "Poupouxios\StripeLaravelWebhook\Providers\StripeRouteServiceProvider"
 ```
 
 Add the redirect and callback routes in your web routes file:

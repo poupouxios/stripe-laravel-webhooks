@@ -37,11 +37,5 @@
       "name": "Valentinos Papasavvas",
       "email": "poupouxios@gmail.com"
     }
-  ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/poupouxios/stripe-laravel-webhooks"
-    }
   ]
 }
