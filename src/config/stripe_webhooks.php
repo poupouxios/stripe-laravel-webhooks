@@ -32,7 +32,8 @@ return [
             'payment_cancelled' => 'Payment has been canceled'
         ],
         'success' => [
-            'create_stripe_user_account' => 'Stripe Account has been created successfully'
+            'create_stripe_user_account' => 'Stripe Account has been created successfully',
+            'payment_success' => 'The payment was successful!'
         ]
     ],
 

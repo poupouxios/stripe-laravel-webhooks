@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Poupouxios\StripeLaravelWebhook\Events\StripeWebhookPaymentCancelledRedirectEvent;
+use Poupouxios\StripeLaravelWebhook\Events\StripeWebhookPaymentSuccessRedirectEvent;
 
 if (class_exists("\\Illuminate\\Routing\\Controller")) {
     class BaseController extends \Illuminate\Routing\Controller {}
@@ -22,7 +23,9 @@ class StripePaymentRedirectController  extends BaseController
     public function payment_success(Request $request)
     {
         Log::info("Stripe Payment success : ", $request->all());
+        event(new StripeWebhookPaymentSuccessRedirectEvent($request->all()));
         $current_url = Config::get("stripe_webhooks.redirect_url");
+        flash(Config::get("stripe_webhooks.messages.success.payment_success"))->success()->important();
         if (empty($current_url)) {
             $current_url = "/";
         }
