@@ -22,7 +22,7 @@ class Stripe
 
     public function __construct()
     {
-        \Stripe\Stripe::setApiKey(Config::get('services.stripe.secret'));
+        \Stripe\Stripe::setApiKey(Config::get('stripe_webhooks.stripe_secret'));
     }
 
     /**

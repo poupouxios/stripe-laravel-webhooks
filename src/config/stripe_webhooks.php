@@ -36,6 +36,7 @@ return [
         ]
     ],
 
-    'webhook_secret' => ''
+    'webhook_secret' => '',
+    'stripe_secret' => '',
 
 ];
