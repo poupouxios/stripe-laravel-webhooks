@@ -19,8 +19,8 @@ class StripeWebhookPaymentCancelledRedirectEvent
 {
     use Dispatchable, SerializesModels;
 
-    /** @var int $session_id */
-    public int $session_id;
+    /** @var string $session_id */
+    public string $session_id;
 
     /** @var array $response_data */
     public array $response_data;
