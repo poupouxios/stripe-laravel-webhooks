@@ -105,7 +105,9 @@ class StripeController extends BaseController
             $processor = new $processorClass;
             $processor->process($event);
         } else {
-            Log::warning('Cannot find ' . "\Poupouxios\StripeLaravelWebhook\Processors\\$eventProcessor");
+            Log::warning('Cannot find ' . "\Poupouxios\StripeLaravelWebhook\Processors\\$eventProcessor", [
+                'payload' => $payload
+            ]);
         }
 
         return response("", 200);
