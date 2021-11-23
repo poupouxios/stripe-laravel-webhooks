@@ -12,9 +12,13 @@ use Poupouxios\StripeLaravelWebhook\Services\Stripe;
 use Stripe\Checkout\Session;
 
 if (class_exists("\\Illuminate\\Routing\\Controller")) {
-    class BaseController extends \Illuminate\Routing\Controller {}
+    class BaseController extends \Illuminate\Routing\Controller
+    {
+    }
 } elseif (class_exists("Laravel\\Lumen\\Routing\\Controller")) {
-    class BaseController extends \Laravel\Lumen\Routing\Controller {}
+    class BaseController extends \Laravel\Lumen\Routing\Controller
+    {
+    }
 }
 
 class StripeController extends BaseController
@@ -30,19 +34,24 @@ class StripeController extends BaseController
         $user = Auth::user();
         if ($user && $request->has('code')) {
             try {
-                event(new StripeWebhookUserStripeAccountCreatedEvent(
-                    app(Stripe::class)->authorizeAccount($request->get('code')),
-                    $user->id,
-                    $request->all())
+                event(
+                    new StripeWebhookUserStripeAccountCreatedEvent(
+                        app(Stripe::class)->authorizeAccount($request->get('code')),
+                        $user->id,
+                        $request->all()
+                    )
                 );
-                flash(Config::get('stripe_webhooks.messages.success.create_stripe_user_account'))->success();
-                return redirect(Config::get('stripe_webhooks.success_create_stripe_account_url'));
+                return redirect(Config::get('stripe_webhooks.success_create_stripe_account_url'))->with(
+                    'success',
+                    Config::get(
+                        'stripe_webhooks.messages.success.create_stripe_user_account'
+                    )
+                );
             } catch (StripeAuthException $exception) {
                 Log::error('Stripe: Failed to authorize user after creation. Reason: ' . $exception->getMessage());
             }
         }
-        flash(Config::get('stripe_webhooks.messages.errors.failed_create_stripe_user_account'))->error();
-        return redirect('/');
+        return redirect('/')->with('error',Config::get('stripe_webhooks.messages.errors.failed_create_stripe_user_account'));
     }
 
     /**
@@ -50,12 +59,16 @@ class StripeController extends BaseController
      * @param Session $sesion_object
      * @return mixed
      */
-    public function create_checkout_session(Session $sesion_object){
+    public function create_checkout_session(Session $sesion_object)
+    {
         $user = Auth::user();
         if (!$user) {
-            return response()->json([
-                                        'message' => 'Session timeout. Refresh your browser to login again.'
-                                    ], 400);
+            return response()->json(
+                [
+                    'message' => 'Session timeout. Refresh your browser to login again.'
+                ],
+                400
+            );
         }
 
         //this is mandatory so anyone using this package they need to implement their own checkout session in order
@@ -63,15 +76,21 @@ class StripeController extends BaseController
         //object of createCheckoutSession must be passed to this create_checkout_session so we can catch it here and
         //send it back to UI
         if (isset($sesion_object)) {
-            return response()->json([
-                                        'message' => 'Checkout session link created. Redirecting to Checkout page..',
-                                        'session_id' => $sesion_object->id
-                                    ], 200);
+            return response()->json(
+                [
+                    'message' => 'Checkout session link created. Redirecting to Checkout page..',
+                    'session_id' => $sesion_object->id
+                ],
+                200
+            );
         }
 
-        return response()->json([
-                                    'message' => 'Something went wrong. Our support team is notified.'
-                                ], 500);
+        return response()->json(
+            [
+                'message' => 'Something went wrong. Our support team is notified.'
+            ],
+            500
+        );
     }
 
     public function webhookAction(Request $request)
@@ -105,9 +124,12 @@ class StripeController extends BaseController
             $processor = new $processorClass;
             $processor->process($event);
         } else {
-            Log::warning('Cannot find ' . "\Poupouxios\StripeLaravelWebhook\Processors\\$eventProcessor", [
-                'payload' => $payload
-            ]);
+            Log::warning(
+                'Cannot find ' . "\Poupouxios\StripeLaravelWebhook\Processors\\$eventProcessor",
+                [
+                    'payload' => $payload
+                ]
+            );
         }
 
         return response("", 200);
