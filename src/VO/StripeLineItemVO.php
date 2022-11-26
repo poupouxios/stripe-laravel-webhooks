@@ -7,6 +7,12 @@ class StripeLineItemVO
     /** @var string $name */
     public string $name;
 
+    /** @var string $customer_email */
+    public string $customer_email;
+
+    /** @var array $payment_method_types */
+    public array $payment_method_types = [];
+
     /** @var string $image_url */
     public string $image_url;
 

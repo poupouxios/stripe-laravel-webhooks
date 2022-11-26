@@ -102,7 +102,8 @@ class Stripe
             try {
                 $session = Session::create(
                     [
-                        'payment_method_types' => ['card'],
+                        'customer_email' => $stripeLineItemVO->email,
+                        'payment_method_types' => $stripeLineItemVO->payment_method_types,
                         'line_items' => [
                             [
                                 'name' => $stripeLineItemVO->name,
