@@ -100,27 +100,32 @@ class Stripe
     {
         if (!empty($stripeLineItemVO->stripe_user_id)) {
             try {
-                $session = Session::create(
-                    [
-                        'customer_email' => $stripeLineItemVO->customer_email,
-                        'payment_method_types' => $stripeLineItemVO->payment_method_types,
-                        'line_items' => [
-                            [
-                                'name' => $stripeLineItemVO->name,
-                                'amount' => round($stripeLineItemVO->amount, 2) * 100,
-                                'images' => [$stripeLineItemVO->image_url],
-                                'currency' => 'eur',
-                                'quantity' => 1,
-                            ]
-                        ],
-                        'mode' => 'payment',
-                        'success_url' => route(
-                                Config::get('stripe_webhooks.payment.success_route_name')
-                            ) . "?session_id={CHECKOUT_SESSION_ID}",
-                        'cancel_url' => route(
-                                Config::get('stripe_webhooks.payment.cancel_route_name')
-                            ) . "?session_id={CHECKOUT_SESSION_ID}",
+                $params = [
+                    'payment_method_types' => $stripeLineItemVO->payment_method_types,
+                    'line_items' => [
+                        [
+                            'name' => $stripeLineItemVO->name,
+                            'amount' => round($stripeLineItemVO->amount, 2) * 100,
+                            'images' => [$stripeLineItemVO->image_url],
+                            'currency' => 'eur',
+                            'quantity' => 1,
+                        ]
                     ],
+                    'mode' => 'payment',
+                    'success_url' => route(
+                            Config::get('stripe_webhooks.payment.success_route_name')
+                        ) . "?session_id={CHECKOUT_SESSION_ID}",
+                    'cancel_url' => route(
+                            Config::get('stripe_webhooks.payment.cancel_route_name')
+                        ) . "?session_id={CHECKOUT_SESSION_ID}",
+                ];
+
+                if(!empty($stripeLineItemVO->customer_email)){
+                    $params['customer_email'] = $stripeLineItemVO->customer_email;
+                }
+
+                $session = Session::create(
+                    $params,
                     ['stripe_account' => $stripeLineItemVO->stripe_user_id]
                 );
                 if ($stripeLineItemVO->application_fee > 0) {
